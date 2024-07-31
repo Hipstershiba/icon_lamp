@@ -1,4 +1,4 @@
-class Ball {
+class Blob {
   float radius;
   float diameter;
   float x;
@@ -12,7 +12,7 @@ class Ball {
   int noiseStart;
   float noiseStep;
 
-  Ball(float radius) {
+  Blob(float radius) {
     this.radius = radius;
     diameter = radius * 2;
     x = random(-radius, width + radius);
