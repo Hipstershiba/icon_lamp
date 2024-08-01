@@ -77,7 +77,7 @@ public int sort_radius() {
     float min_radius = min(width, height) / 30;
     float max_radius = min(width, height) / 4;
     float mean = (max_radius - min_radius) / 2;
-    float standard_deviation = (max_radius - min_radius) / 2;
+    float standard_deviation = (max_radius - min_radius) / 4;
     float bias = 0.3f;
     int sorted_radius = PApplet.parseInt(standard_deviation * (randomGaussian() - bias) + mean);
     if (sorted_radius < min_radius) {
