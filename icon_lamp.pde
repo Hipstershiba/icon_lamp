@@ -4,12 +4,6 @@ PGraphics lava_canvas;
 PShape logo_icon_vector;
 
 Blob[] blobs;
-// this values will devide the width of the screen,
-// so the larger the value, smaller the blob.
-float minRadius = 30;
-float smallRadius = 20;
-float largeRadius = 10;
-float maxRadius = 3;
 
 void setup() {
     // size(800, 800);
@@ -21,14 +15,11 @@ void setup() {
 
     blendMode(DIFFERENCE);
 
-    minRadius = width/minRadius;
-    smallRadius = width/smallRadius;
-    largeRadius = width/largeRadius;
-    maxRadius = width/maxRadius;
-
+    int blob_radius = 0;
     blobs = new Blob[60];
     for (int i = 0; i < blobs.length; i++) {
-        blobs[i] = new Blob(random(random(random(minRadius,smallRadius), random(smallRadius,largeRadius)), random(largeRadius, maxRadius)));
+        blob_radius = sort_radius();
+        blobs[i] = new Blob(blob_radius);
     }
 }
 
@@ -63,4 +54,19 @@ void lava_drwer() {
     }
     lava_canvas.endDraw();
     image(lava_canvas, 0, 0);
+}
+
+int sort_radius() {
+    float min_radius = min(width, height) / 30;
+    float max_radius = min(width, height) / 4;
+    float mean = (max_radius - min_radius) / 2;
+    float standard_deviation = (max_radius - min_radius) / 4;
+    float bias = 0.3;
+    int sorted_radius = int(standard_deviation * (randomGaussian() - bias) + mean);
+    if (sorted_radius < min_radius) {
+        sorted_radius = int(min_radius);
+    } else if (sorted_radius > max_radius) {
+        sorted_radius = int(max_radius);
+    }
+    return sorted_radius;
 }
