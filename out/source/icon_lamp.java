@@ -76,7 +76,7 @@ public void lava_drwer() {
 public int sort_radius() {
     float min_radius = min(width, height) / 30;
     float max_radius = min(width, height) / 4;
-    float mean = (max_radius - min_radius) / 2;
+    float mean = (max_radius - min_radius) / 3.5f;
     float standard_deviation = (max_radius - min_radius) / 4;
     float bias = 0.3f;
     int sorted_radius = PApplet.parseInt(standard_deviation * (randomGaussian() - bias) + mean);
@@ -104,7 +104,7 @@ class Blob {
   Blob(float radius) {
     this.radius = radius;
     diameter = radius * 2;
-    x = random(-radius, width + radius);
+    x = ((width/2) * map(radius, min(width, height) / 30, min(width, height) / 4, 1, 0)) * randomGaussian() + width/2;
     y = random(-radius, height + radius);
     speedX = 0;
     speedY = random(-1, 1);

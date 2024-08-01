@@ -15,7 +15,7 @@ class Blob {
   Blob(float radius) {
     this.radius = radius;
     diameter = radius * 2;
-    x = random(-radius, width + radius);
+    x = ((width/2) * map(radius, min(width, height) / 30, min(width, height) / 4, 1, 0)) * randomGaussian() + width/2;
     y = random(-radius, height + radius);
     speedX = 0;
     speedY = random(-1, 1);
