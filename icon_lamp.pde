@@ -7,16 +7,16 @@ Blob[] blobs;
 
 void setup() {
     // size(800, 800);
-    fullScreen();
+    fullScreen(P2D, 2);
     logo_canvas = createGraphics(width, height);
     lava_canvas = createGraphics(width, height);
 
     logo_icon_vector = loadShape("logo_icon.svg");
 
-    blendMode(DIFFERENCE);
+    blendMode(EXCLUSION);
 
     int blob_radius = 0;
-    blobs = new Blob[60];
+    blobs = new Blob[90];
     for (int i = 0; i < blobs.length; i++) {
         blob_radius = sort_radius();
         blobs[i] = new Blob(blob_radius);
@@ -59,7 +59,7 @@ void lava_drwer() {
 int sort_radius() {
     float min_radius = min(width, height) / 30;
     float max_radius = min(width, height) / 4;
-    float mean = (max_radius - min_radius) / 3.5;
+    float mean = (max_radius - min_radius) / 2.5;
     float standard_deviation = (max_radius - min_radius) / 4;
     float bias = 0.3;
     int sorted_radius = int(standard_deviation * (randomGaussian() - bias) + mean);

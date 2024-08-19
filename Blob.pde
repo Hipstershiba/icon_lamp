@@ -42,7 +42,7 @@ class Blob {
   }
 
   void move() {
-    // x += speedX;
+    x += speedX;
     y += speedY;
   }
 
@@ -55,7 +55,7 @@ class Blob {
 
   void accelerate() {
     noiseStep += 0.00005;
-    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
+    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/10, maxAcceleration/10);
     accelerationY = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
   }
 
