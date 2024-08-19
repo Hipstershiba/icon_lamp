@@ -30,8 +30,9 @@ class Blob {
     accelerationY = 0;
     maxSpeed = 1;
     maxAcceleration = 0.01;
-    
+
     noiseStart = int(random(10000));
+    noiseStep = 2;
   }
 
   void display(PGraphics layer) {
@@ -63,7 +64,7 @@ class Blob {
 
   void accelerate() {
     noiseStep += 0.00005;
-    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/10, maxAcceleration/10);
+    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/50, maxAcceleration/50);
     accelerationY = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
   }
 

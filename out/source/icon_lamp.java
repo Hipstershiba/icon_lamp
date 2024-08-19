@@ -90,29 +90,38 @@ public int sort_radius() {
 class Blob {
   float radius;
   float diameter;
+  float density;
+
   float x;
   float y;
+
   float speedX;
   float speedY;
   float accelerationX;
   float accelerationY;
   float maxSpeed;
   float maxAcceleration;
+
   int noiseStart;
   float noiseStep;
 
   Blob(float radius) {
     this.radius = radius;
     diameter = radius * 2;
+    density = 1;
+
     x = ((width/2) * map(radius, min(width, height) / 30, min(width, height) / 4, 1, 0)) * randomGaussian() + width/2;
     y = random(-radius, height + radius);
+
     speedX = 0;
     speedY = random(-1, 1);
     accelerationX = 0;
     accelerationY = 0;
     maxSpeed = 1;
     maxAcceleration = 0.01f;
+
     noiseStart = PApplet.parseInt(random(10000));
+    noiseStep = 2;
   }
 
   public void display(PGraphics layer) {
@@ -144,7 +153,7 @@ class Blob {
 
   public void accelerate() {
     noiseStep += 0.00005f;
-    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/10, maxAcceleration/10);
+    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/50, maxAcceleration/50);
     accelerationY = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
   }
 
