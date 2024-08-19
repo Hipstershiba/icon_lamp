@@ -33,7 +33,7 @@ public void setup() {
     blendMode(EXCLUSION);
 
     int blob_radius = 0;
-    blobs = new Blob[60];
+    blobs = new Blob[90];
     for (int i = 0; i < blobs.length; i++) {
         blob_radius = sort_radius();
         blobs[i] = new Blob(blob_radius);
@@ -76,7 +76,7 @@ public void lava_drwer() {
 public int sort_radius() {
     float min_radius = min(width, height) / 30;
     float max_radius = min(width, height) / 4;
-    float mean = (max_radius - min_radius) / 3.5f;
+    float mean = (max_radius - min_radius) / 2.5f;
     float standard_deviation = (max_radius - min_radius) / 4;
     float bias = 0.3f;
     int sorted_radius = PApplet.parseInt(standard_deviation * (randomGaussian() - bias) + mean);
@@ -149,18 +149,19 @@ class Blob {
   }
 
   public void bouncyBorders() {
-    if (x > width + radius/2) {
-      x = width + radius/2;
+    float radius_tolerance = 0.1f;
+    if (x > width + radius * radius_tolerance) {
+      x = width + radius * radius_tolerance;
       speedX *= -0.8f;
-    } else if (x < -radius/2) {
-      x = -radius/2;
+    } else if (x < -radius * radius_tolerance) {
+      x = -radius * radius_tolerance;
       speedX *= -0.8f;
     }
-    if (y > height + radius/2) {
-      y = height + radius/2;
+    if (y > height + radius * radius_tolerance) {
+      y = height + radius * radius_tolerance;
       speedY *= -0.8f;
-    } else if (y < -radius/2) {
-      y = -radius/2;
+    } else if (y < -radius * radius_tolerance) {
+      y = -radius * radius_tolerance;
       speedY *= -0.8f;
     }
   }
