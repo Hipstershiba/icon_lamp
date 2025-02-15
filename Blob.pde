@@ -15,7 +15,7 @@ class Blob {
   private int noiseStart;
   private float noiseStep;
 
-  Blob(float radius) {
+  public Blob(float radius) {
     this.radius = radius;
     this.diameter = radius * 2;
     this.density = 1;
@@ -88,4 +88,21 @@ class Blob {
       this.speed.y *= -0.8;
     }
   }
+
+  public PVector getPosition() {
+    return this.position.copy();
+  }
+
+  public float getX() {
+    return this.position.x;
+  }
+
+  public float getY() {
+    return this.position.y;
+  }
+
+  public float getRadius() {
+    return this.radius;
+  }
+
 }
