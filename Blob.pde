@@ -1,88 +1,91 @@
 class Blob {
-  float radius;
-  float diameter;
-  float density;
+  // Propriedades fisicas
+  private float radius;
+  private float diameter;
+  private float density;
 
-  float x;
-  float y;
+  // Vetores de posicao, velocidade e aceleracao
+  private PVector position;
+  private PVector speed;
+  private PVector acceleration;
+  private float maxSpeed;
+  private float maxAcceleration;
 
-  float speedX;
-  float speedY;
-  float accelerationX;
-  float accelerationY;
-  float maxSpeed;
-  float maxAcceleration;
-
-  int noiseStart;
-  float noiseStep;
+  // Propriedades de movimento
+  private int noiseStart;
+  private float noiseStep;
 
   Blob(float radius) {
     this.radius = radius;
-    diameter = radius * 2;
-    density = 1;
+    this.diameter = radius * 2;
+    this.density = 1;
 
-    x = ((width/2) * map(radius, min(width, height) / 30, min(width, height) / 4, 1, 0)) * randomGaussian() + width/2;
-    y = random(-radius, height + radius);
+    float x = ((width/2) * map(radius, min(width, height) / 30, min(width, height) / 4, 1, 0)) * randomGaussian() + width/2;
+    float y = random(-radius, height + radius);
 
-    speedX = 0;
-    speedY = random(-1, 1);
-    accelerationX = 0;
-    accelerationY = 0;
-    maxSpeed = 1;
-    maxAcceleration = 0.01;
+    this.position = new PVector(x, y);
+    this.speed = new PVector(0, random(-1, 1));
+    this.acceleration = new PVector(0, 0);
+    this.maxSpeed = 1;
+    this.maxAcceleration = 0.01;
 
-    noiseStart = int(random(10000));
-    noiseStep = 2;
+    this.noiseStart = int(random(10000));
+    this.noiseStep = 2;
   }
 
-  void display(PGraphics layer) {
+  public void update() {
+    this.accelerate();
+    this.updateSpeed();
+    this.move();
+    this.bouncyBorders();
+  } 
+
+  public void display(PGraphics layer) {
     if(layer != null) {
       layer.fill(0);
       layer.noStroke();
-      layer.circle(x, y, diameter);
+      layer.circle(this.position.x,this.position.y, this.diameter);
     }
   }
 
-  void update() {
-    accelerate();
-    updateSpeed();
-    move();
-    bouncyBorders();
+  private void updateSpeed() {
+    this.speed.add(this.acceleration);
+    this.speed.limit(this.maxSpeed);
   }
 
-  void move() {
-    x += speedX;
-    y += speedY;
+  private void move() {
+    this.position.add(this.speed);
   }
 
-  void updateSpeed() {
-    speedX += accelerationX;
-    speedY += accelerationY;
-    speedX = constrain(speedX, -maxSpeed, maxSpeed);
-    speedY = constrain(speedY, -maxSpeed, maxSpeed);
+  private void accelerate() {
+    this.noiseStep += 0.00005;
+    float noiseX = noise(noiseStart + noiseStep);
+    float noiseY = noise(noiseStart + noiseStep + 1000);
+
+    float x = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/50, maxAcceleration/50);
+    float y = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
+
+    this.acceleration.set(x, y);
   }
 
-  void accelerate() {
-    noiseStep += 0.00005;
-    accelerationX = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration/50, maxAcceleration/50);
-    accelerationY = map(noise(noiseStart + noiseStep), 0, 1, -maxAcceleration, maxAcceleration);
-  }
+  private void bouncyBorders() {
+    float tolerance = 0.1;
+    float bounceFactor = -0.8;
 
-  void bouncyBorders() {
-    float radius_tolerance = 0.1;
-    if (x > width + radius * radius_tolerance) {
-      x = width + radius * radius_tolerance;
-      speedX *= -0.8;
-    } else if (x < -radius * radius_tolerance) {
-      x = -radius * radius_tolerance;
-      speedX *= -0.8;
+    if (this.position.x > width + radius * tolerance) {
+      this.position.x = width + radius * tolerance;
+      this.speed.x *= bounceFactor;
+    } else if (this.position.x < -radius * tolerance) {
+      this.position.x = -radius * tolerance;
+      this.speed.x *= bounceFactor;
     }
-    if (y > height + radius * radius_tolerance) {
-      y = height + radius * radius_tolerance;
-      speedY *= -0.8;
-    } else if (y < -radius * radius_tolerance) {
-      y = -radius * radius_tolerance;
-      speedY *= -0.8;
+
+    if (this.position.y > height + radius * tolerance) {
+      this.position.y = height + radius * tolerance;
+      this.speed.y *= bounceFactor;
+    } else if (this.position.y < -radius * tolerance) {
+      this.position.y = -radius * tolerance;
+      this.speed.y *= -0.8;
     }
   }
 }
