@@ -6,9 +6,11 @@ PShape logo_icon_vector;
 Blob[] blobs;
 Corner[] corners;
 
+int resolution;
+
 void setup() {
-    // size(800, 800);
-    fullScreen(P2D, 2);
+    size(400, 400);
+    // fullScreen(P2D, 2);
     logo_canvas = createGraphics(width, height);
     lava_canvas = createGraphics(width, height);
 
@@ -17,17 +19,23 @@ void setup() {
     blendMode(EXCLUSION);
 
     int blob_radius = 0;
-    blobs = new Blob[90];
+    blobs = new Blob[1];
     for (int i = 0; i < blobs.length; i++) {
         blob_radius = sort_radius();
         blobs[i] = new Blob(blob_radius);
     }
+
+    resolution = 200;
+    updateResolution(resolution);
+    println("corner length: " + corners.length);
+
 }
 
 void draw() {
     background(255);
+    updateCorners();
     logo_drawer();
-    lava_drwer();
+    lava_drawer();
 }
 
 void logo_drawer() {
@@ -40,11 +48,16 @@ void logo_drawer() {
     float new_horizontal_size = logo_icon_vector.width * ratio;
     float new_vertical_size = logo_icon_vector.height * ratio;
     logo_canvas.shape(logo_icon_vector, width/2, height/2, new_horizontal_size, new_vertical_size);
+
+    for (int i = 0; i < corners.length; i++) {
+        corners[i].display(logo_canvas, 3);
+    }
+
     logo_canvas.endDraw();
     image(logo_canvas, 0, 0);
 }
 
-void lava_drwer() {
+void lava_drawer() {
     lava_canvas.beginDraw();
     lava_canvas.background(255);
     // lava_canvas.fill(0);
@@ -70,4 +83,30 @@ int sort_radius() {
         sorted_radius = int(max_radius);
     }
     return sorted_radius;
+}
+
+void updateResolution(int newResolution) {
+    createCorners(newResolution);
+}
+
+void createCorners(int resolution) {
+    int columns = ceil(width / resolution) + 1;
+    int rows = ceil(height / resolution) + 1;
+    int totalCorners = columns * rows;
+    corners = new Corner[totalCorners];
+    for (int i = 0; i < columns; i++) {
+        for (int j = 0; j < rows; j++) {
+            int index = i + j * columns;
+            corners[index] = new Corner(i * resolution, j * resolution);    
+        }
+    }
+}
+
+void updateCorners() {
+    for (int i = 0; i < corners.length; i++) {
+        corners[i].resetValue();
+        for (int j = 0; j < blobs.length; j++) {
+            corners[i].updateValue(blobs[j].getX(), blobs[j].getY(), blobs[j].getRadius());
+        }
+    }
 }

@@ -28,6 +28,16 @@ class Corner {
         layer.point(this.position.x, this.position.y);
     }
 
+    // public void display(float weight) {
+    //     if (this.value >= 1) {
+    //         stroke(0, 255, 0);
+    //     } else {
+    //         stroke(0, 0, 0);
+    //     }
+    //     strokeWeight(weight);
+    //     point(this.position.x, this.position.y);
+    // }
+
     public PVector getPosition() {
         return this.position;
     }
