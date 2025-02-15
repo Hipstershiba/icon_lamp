@@ -18,7 +18,7 @@ class Corner {
         this.value += r / (deltaX + deltaY);
     }
 
-    public void display(PGraphics layer, float wieght) {
+    public void display(PGraphics layer, float weight) {
         if (this.value >= 1) {
             layer.stroke(0, 255, 0);
         } else {
