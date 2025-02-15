@@ -5,7 +5,6 @@ class Corner {
     Corner(float x, float y) {
         this.position = new PVector(x, y);
         this.value = 0;
-        this.oberservers = [];
     }
 
     public void resetValue() {

@@ -4,6 +4,7 @@ PGraphics lava_canvas;
 PShape logo_icon_vector;
 
 Blob[] blobs;
+Corner[] corners;
 
 void setup() {
     // size(800, 800);
