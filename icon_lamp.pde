@@ -19,13 +19,13 @@ void setup() {
     blendMode(EXCLUSION);
 
     int blob_radius = 0;
-    blobs = new Blob[1];
+    blobs = new Blob[10];
     for (int i = 0; i < blobs.length; i++) {
         blob_radius = sort_radius();
         blobs[i] = new Blob(blob_radius);
     }
 
-    resolution = 200;
+    resolution = 20;
     updateResolution(resolution);
     println("corner length: " + corners.length);
 

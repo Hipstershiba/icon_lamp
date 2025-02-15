@@ -70,7 +70,7 @@ class Blob {
 
   private void bouncyBorders() {
     float tolerance = 0.1;
-    float bounceFactor = -0.8;
+    float bounceFactor = -0.5;
 
     if (this.position.x > width + radius * tolerance) {
       this.position.x = width + radius * tolerance;
@@ -85,7 +85,7 @@ class Blob {
       this.speed.y *= bounceFactor;
     } else if (this.position.y < -radius * tolerance) {
       this.position.y = -radius * tolerance;
-      this.speed.y *= -0.8;
+      this.speed.y *= bounceFactor;
     }
   }
 
